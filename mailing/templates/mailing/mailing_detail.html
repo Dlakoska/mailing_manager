@@ -1,0 +1,27 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="card mb-4 box-shadow">
+
+        <div class="card-body">
+            <p class="card-text"> Рассылка "{{ object.message }}"</p>
+            <p class="card-text"> Сообщение "{{ object.message.message }}"</p>
+            <p class="card-text"> Описание рассылки "{{ object.description }}"</p>
+            <p class="card-text"> Начало рассылки "{{ object.start_time }}"</p>
+            <p class="card-text"> С какой периодичностью направляется рассылка "{{ object.periodicity }}"</p>
+            <p class="card-text"> Статус "{{ object.status }}"</p>
+            <p class="card-text"> Дата завершения рассылки "{{ object.actual_end_time }}"</p>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <a href="{% url 'mailing:mailing_list'%}" type="button" class="btn  btn-primary my-2">Назад</a>
+                    <a href="{% url 'mailing:mailing_update' object.pk %}" type="button" class="btn  btn-warning my-2">Редактировать</a>
+                    <a href="{% url 'mailing:mailing_delete' object.pk %}" type="button" class="btn  btn-danger my-2">Удалить</a>
+                </div>
+                <small class="text-muted">9 mins</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
