@@ -10,9 +10,10 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                     <a href="{% url 'mailing:message_list'%}" type="button" class="btn  btn-primary my-2">Назад</a>
+                    {% if not perms.mailing.can_edit_status %}
                     <a href="{% url 'mailing:message_update' object.pk %}" type="button" class="btn  btn-warning my-2">Редактировать</a>
                     <a href="{% url 'mailing:message_delete' object.pk %}" type="button" class="btn  btn-danger my-2">Удалить</a>
-                </div>
+                    {% endif %} </div>
                 <small class="text-muted">9 mins</small>
             </div>
         </div>

@@ -16,9 +16,14 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                     <a href="{% url 'mailing:mailing_list'%}" type="button" class="btn  btn-primary my-2">Назад</a>
+                    {% if perms.mailing.can_edit_status and not user.is_superuser  %}
+                    <a href="{% url 'mailing:mailing_update' object.pk %}" type="button" class="btn  btn-warning my-2">Управлять рассылкой</a>
+                    {% else %}
                     <a href="{% url 'mailing:mailing_update' object.pk %}" type="button" class="btn  btn-warning my-2">Редактировать</a>
+                    {% endif %}
+                    {% if object.owner == user or user.is_superuser %}
                     <a href="{% url 'mailing:mailing_delete' object.pk %}" type="button" class="btn  btn-danger my-2">Удалить</a>
-                </div>
+                    {% endif %}</div>
                 <small class="text-muted">9 mins</small>
             </div>
         </div>

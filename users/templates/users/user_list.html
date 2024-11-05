@@ -1,0 +1,24 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<a href="{% url 'mailing:message_create' %}" type="button" class="btn  btn-success my-2">Создать сообщение</a>
+{% for object in object_list %}
+{% if object.owner == user or perms.mailing.can_edit_status%}
+<div class="col-md-12">
+    <div class="card mb-4 box-shadow">
+
+        <div class="card-body">
+            <p class="card-text"> Пользователь "{{ object.email }}"</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <a href="{% url 'users:users_update' object.pk %}"
+                       type="button" class="btn  btn-warning my-2">Отключить пользователя</a>
+                </div>
+                <small class="text-muted">9 mins</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}

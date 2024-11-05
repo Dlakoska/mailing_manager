@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -7,6 +9,7 @@ class Client(models.Model):
     email = models.EmailField(verbose_name='Email адрес', unique=True)
     full_name = models.CharField(max_length=150, verbose_name='Ф.И.О. клиента')
     сomment = models.TextField(verbose_name='Комментарий', **NULLABLE)
+    owner = models.ForeignKey(User, verbose_name='Владелец записи о клиенте', on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return self.full_name
@@ -19,6 +22,7 @@ class Client(models.Model):
 class Message(models.Model):
     subject = models.CharField(max_length=100, verbose_name='Тема письма')
     message = models.TextField(verbose_name='Сообщение')
+    owner = models.ForeignKey(User, verbose_name='Владелец сообщения', on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return self.subject
@@ -48,7 +52,15 @@ class Mailing(models.Model):
     message = models.ForeignKey(Message, verbose_name='Сообщение', on_delete=models.CASCADE)
     client = models.ManyToManyField(Client, verbose_name='Клиенты')
     actual_end_time = models.DateTimeField(verbose_name='Дата завершения рассылки', **NULLABLE)
+    owner = models.ForeignKey(User, verbose_name='Владелец рассылки', on_delete=models.CASCADE, **NULLABLE)
 
+    def __str__(self):
+        return self.description
+
+    class Meta:
+        verbose_name = 'Рассылка'
+        verbose_name_plural = 'Рассылки'
+        permissions = [('can_edit_status', 'Can edit status')]
 
 class MailingAttempt(models.Model):
     STATUS_CHOICES = [('success', 'Успешно'), ('failed', 'Не успешно')]
@@ -57,6 +69,7 @@ class MailingAttempt(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
     server_response = models.TextField(verbose_name='Ответ почтового сервиса', **NULLABLE)
     send_time = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return f'Попытка {self.id} для рассылки {self.mailing.id}'

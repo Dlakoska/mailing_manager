@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mailing',
-    'django_apscheduler'
+    'django_apscheduler',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -140,6 +141,10 @@ EMAIL_HOST_PASSWORD = 'mtybgtafutxoffku'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
+
+AUTH_USER_MODEL = 'users.User'
