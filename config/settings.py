@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mailing'
+    'mailing',
+    'django_apscheduler'
 ]
 
 MIDDLEWARE = [
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mailing3',
+        'NAME': 'mailing4',
         'USER': 'postgres',
         'PASSWORD': '12345',
         'HOST': 'localhost',
@@ -128,3 +129,17 @@ STATICFILES_DIRS = (BASE_DIR / 'static',)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+PSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = '465'
+EMAIL_HOST_USER = 'dlakoska33@yandex.ru'
+EMAIL_HOST_PASSWORD = 'mtybgtafutxoffku'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER

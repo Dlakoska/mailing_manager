@@ -19,6 +19,7 @@ class MailingForm(StyleFormMixin, forms.ModelForm):
         model = Mailing
         exclude = '__all__'
 
+
 class ClientForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Client
