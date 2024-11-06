@@ -4,7 +4,29 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from mailing.forms import MailingForm, ClientForm, MessageForm, MailingModeratorForm
 from mailing.models import Mailing, Client, Message
 from django.core.exceptions import PermissionDenied
+from django.views import View
+from django.shortcuts import render
 
+from mailing.services import get_cached_articles
+
+
+class MainPage(View):
+    """Выводит статистику"""
+    def get(self, request, *args, **kwargs):
+        total_mailings = Mailing.objects.count()
+        active_mailings = Mailing.objects.filter(status="started").count()
+        unique_clients_count = Client.objects.distinct().count()
+
+        random_articles = get_cached_articles()
+
+        context = {
+            "total_mailings": total_mailings,
+            "active_mailings": active_mailings,
+            "unique_clients_count": unique_clients_count,
+            "random_articles": random_articles,
+        }
+
+        return render(request, "mailing/home.html", context)
 
 class MailingListView(ListView):
     model = Mailing
@@ -27,8 +49,8 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_class(self):
         user = self.request.user
-        if user == self.object.owner:
-            return ClientForm
+        if user == self.object.owner or user.is_superuser:
+            return MailingForm
         if user.has_perm('mailing.can_edit_status'):
             return MailingModeratorForm
         raise PermissionDenied

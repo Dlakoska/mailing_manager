@@ -44,11 +44,12 @@
             <style>.custom-link {
                 color: white
             }</style>
-
+            <li><a href="{% url 'mailing:home' %}" class="nav-link px-2 custom-link">Главная</a></li>
             <li><a href="{% url 'mailing:mailing_list' %}" class="nav-link px-2 custom-link">Рассылки</a></li>
             <li><a href="{% url 'mailing:message_list' %}" class="nav-link px-2 custom-link">Сообщения</a></li>
             <li><a href="{% url 'mailing:client_list' %}" class="nav-link px-2 custom-link">Клиенты</a></li>
-            {% if perms.mailing.can_edit_status %}
+                        <li><a href="{% url 'blog:blog_list' %}" class="nav-link px-2 custom-link">Блог</a></li>
+                {% if perms.mailing.can_edit_status %}
                 <li><a href="{% url 'users:users_list' %}" class="nav-link px-2 custom-link">Пользователи</a></li>
             {% endif %}
         </ul>

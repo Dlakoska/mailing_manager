@@ -1,11 +1,12 @@
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404, redirect
 from config.settings import EMAIL_HOST_USER
-from users.forms import UserRegisterForm, UserForm
+from users.forms import UserRegisterForm, UserForm, UserModeratorForm
 from users.models import User
 import secrets
 from django.core.mail import send_mail
+from django.core.exceptions import PermissionDenied
 
 
 class UserCreateView(CreateView):
@@ -54,3 +55,19 @@ class UserUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('users:users_list')
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.is_superuser:
+            return UserForm
+        if user.has_perm('mailing.can_edit_status') and not user.is_superuser:
+            return UserModeratorForm
+        raise PermissionDenied
+
+
+class UserDeleteView(DeleteView):
+    login_url = "users:login"
+    redirect_field_name = "redirect_to"
+
+    model = User
+    success_url = reverse_lazy('users:users_list')

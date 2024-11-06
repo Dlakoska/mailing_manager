@@ -60,7 +60,10 @@ class Mailing(models.Model):
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
-        permissions = [('can_edit_status', 'Can edit status')]
+        permissions = [('can_edit_status', 'Can edit status'),
+                       ('can_view_mailing', 'Can view mailing'),
+                       ('can_view_user', 'Can view user')]
+
 
 class MailingAttempt(models.Model):
     STATUS_CHOICES = [('success', 'Успешно'), ('failed', 'Не успешно')]

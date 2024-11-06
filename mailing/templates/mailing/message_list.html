@@ -3,6 +3,11 @@
 {% block content %}
 {% if user.is_authenticated %}
 <a href="{% url 'mailing:message_create' %}" type="button" class="btn  btn-success my-2">Создать сообщение</a>
+{% else %}
+<h5>Что бы увидеть список своих сообщений, зайдите на свой аккаунт</h5>
+
+<li><a href="{% url 'users:login' %}" class="text-black">Войти</a></li>
+
 {% endif %}
 {% for object in object_list %}
 {% if object.owner == user or user.is_superuser or perms.mailing.can_edit_status %}
