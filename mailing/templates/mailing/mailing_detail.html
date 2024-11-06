@@ -17,6 +17,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                     <a href="{% url 'mailing:mailing_list'%}" type="button" class="btn  btn-primary my-2">Назад</a>
+                    <a href="{% url 'mailing:mailing_attempt_list' mailing.pk %}" type="button" class="btn  btn-info my-2">История рассылки</a>
                     {% if perms.mailing.can_edit_status and not user.is_superuser  %}
                     <a href="{% url 'mailing:mailing_update' object.pk %}" type="button" class="btn  btn-warning my-2">Управлять рассылкой</a>
                     {% else %}
@@ -28,6 +29,7 @@
                 <small class="text-muted">9 mins</small>
             </div>
         </div>
+
     </div>
 </div>
 {% endblock %}
